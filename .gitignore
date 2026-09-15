@@ -1,0 +1,47 @@
+# ==============================================================================
+# purpleGPT - .gitignore
+# ==============================================================================
+
+# File di sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Credenziali, token e variabili d'ambiente (CRITICO: non committare mai!)
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.jks
+
+# Database locali e dati di runtime
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+broadcast_history.json
+
+# File di log
+*.log
+purplegpt.log
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambienti virtuali Python
+venv/
+.venv/
+env/
+ENV/
+
+# Build e archivi
+build/
+dist/
+*.egg-info/
+*.zip
+*.tar.gz
+*.apk
+*.aab
