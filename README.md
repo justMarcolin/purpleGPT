@@ -145,6 +145,11 @@ python dashboard.py
 ```
 La dashboard sarà accessibile localmente su `http://127.0.0.1:5000`.
 
+
+> **Nota per il testing locale (Ambiente di Sviluppo vs Produzione):**
+> - **Cookie di sessione HTTPS (`Secure`)**: Per rispettare le best practice di sicurezza web in produzione (dietro reverse proxy Nginx con certificato SSL), la dashboard invia cookie di autenticazione con il flag `Secure`. Se si desidera testare il login in un ambiente locale non-HTTPS (`http://127.0.0.1:5000`), è sufficiente impostare `SESSION_COOKIE_SECURE='false'` nel file `.env`.
+> - **Integrazione IPC in tempo reale**: La dashboard e il bot sono progettati come servizi cooperanti. Per visualizzare le statistiche dei server in tempo reale e testare i broadcast, avviare sia `main.py` che `dashboard.py` con lo stesso token `BROADCAST_SECRET`.
+
 ---
 
 ## Competenze Acquisite
@@ -236,6 +241,10 @@ python main.py
 python dashboard.py
 ```
 Open `http://127.0.0.1:5000` to view the admin dashboard.
+
+> **Local Testing & Development Notice:**
+> - **HTTPS Session Cookies (`Secure`)**: To adhere to production web security best practices (behind an Nginx reverse proxy with SSL), the dashboard issues authentication cookies with the `Secure` attribute. If testing the dashboard login in a local HTTP environment (`http://127.0.0.1:5000`), set `SESSION_COOKIE_SECURE='false'` in your `.env` file.
+> - **Real-time IPC Integration**: The dashboard and the bot are designed as cooperating microservices. To inspect real-time server statistics and test announcements, ensure both `main.py` and `dashboard.py` are running with matching `BROADCAST_SECRET` tokens.
 
 ---
 

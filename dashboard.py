@@ -59,10 +59,11 @@ if (
         "e DASHBOARD_SECRET_KEY nel .env prima di avviarla."
     )
 
-# Cookie di sessione sicuri
+# Cookie di sessione sicuri (in produzione richiede HTTPS; impostare SESSION_COOKIE_SECURE=false in .env solo per test locali)
+SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "true").strip().lower() in ("true", "1", "yes")
 app.config.update(
     SESSION_COOKIE_HTTPONLY  = True,   # JS non può leggere il cookie
-    SESSION_COOKIE_SECURE    = True,   # solo HTTPS
+    SESSION_COOKIE_SECURE    = SESSION_COOKIE_SECURE,  # True in produzione (solo HTTPS)
     SESSION_COOKIE_SAMESITE  = "Lax",  # protezione CSRF di base
     PERMANENT_SESSION_LIFETIME = timedelta(hours=8),
 )
