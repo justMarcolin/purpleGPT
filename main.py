@@ -32,6 +32,10 @@ import tempfile
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from dotenv import load_dotenv
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
 from discord import File, app_commands
 from discord.ext import commands
 import google.auth
@@ -43,9 +47,6 @@ from bot_managers.strings import t, get_lang, DEFAULT_LANG
 
 
 # Configurazione
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-load_dotenv(os.path.join(BASE_DIR, ".env"))
 TOKEN         = os.getenv("TOKEN")
 PROJECT_ID    = os.getenv("PROJECT_ID")
 LOCATION      = os.getenv("LOCATION")
@@ -3768,4 +3769,6 @@ async def premium_cmd(interaction: discord.Interaction):
     await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
 
 
-bot.run(TOKEN)
+if __name__ == "__main__":
+    init_db()
+    bot.run(TOKEN)

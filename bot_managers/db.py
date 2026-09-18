@@ -7,10 +7,22 @@ connessioni SQLite ottimizzate in modalità WAL (Write-Ahead Logging).
 
 import sqlite3
 import os
+from dotenv import load_dotenv
+
+# Carica il file .env se presente
+load_dotenv()
 
 # Percorso assoluto basato sulla posizione di questo file — indipendente dalla
-# directory di avvio del bot.
-DB_FILE = os.getenv("DB_PATH", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "purplegpt.db"))
+# directory di avvio del bot o della dashboard.
+_default_db = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "purplegpt.db"))
+_env_db = os.getenv("DB_PATH")
+if _env_db:
+    if not os.path.isabs(_env_db):
+        DB_FILE = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", _env_db))
+    else:
+        DB_FILE = _env_db
+else:
+    DB_FILE = _default_db
 
 
 def get_conn() -> sqlite3.Connection:

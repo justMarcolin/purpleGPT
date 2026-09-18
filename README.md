@@ -96,8 +96,8 @@ Il sistema è strutturato in modo modulare per garantire affidabilità, separazi
 ### 1. Prerequisiti
 - **Python 3.11** o superiore
 - **FFmpeg** installato e presente nel PATH di sistema (necessario per comandi multimediali audio/video)
-- Un account **Google Cloud** con un progetto abilitato a Vertex AI
-- Un'applicazione bot creata sul **Discord Developer Portal**
+- Un account **Google Cloud** con un progetto abilitato alle API di **Vertex AI** (per i test in locale è sufficiente autenticarsi con ADC: `gcloud auth application-default login`)
+- Un'applicazione bot creata sul **Discord Developer Portal** con i **Privileged Gateway Intents** abilitati nella sezione *Bot* (*Message Content Intent* e *Server Members Intent*, necessari per il corretto funzionamento di `discord.py`)
 
 ### 2. Configurazione dell'Ambiente
 
@@ -146,7 +146,8 @@ python dashboard.py
 La dashboard sarà accessibile localmente su `http://127.0.0.1:5000`.
 
 
-> **Nota per il testing locale (Ambiente di Sviluppo vs Produzione):**
+> **Nota per il testing locale e avvio da zero (Cold Start):**
+> - **Inizializzazione automatica Database**: Il database SQLite (`purplegpt.db`) e l'intero schema (tabelle utenti, quote, piani, cooldown e impostazioni) vengono inizializzati automaticamente in modalità WAL al primo avvio, sia che venga eseguito prima `main.py` o `dashboard.py`.
 > - **Cookie di sessione HTTPS (`Secure`)**: Per rispettare le best practice di sicurezza web in produzione (dietro reverse proxy Nginx con certificato SSL), la dashboard invia cookie di autenticazione con il flag `Secure`. Se si desidera testare il login in un ambiente locale non-HTTPS (`http://127.0.0.1:5000`), è sufficiente impostare `SESSION_COOKIE_SECURE='false'` nel file `.env`.
 > - **Integrazione IPC in tempo reale**: La dashboard e il bot sono progettati come servizi cooperanti. Per visualizzare le statistiche dei server in tempo reale e testare i broadcast, avviare sia `main.py` che `dashboard.py` con lo stesso token `BROADCAST_SECRET`.
 
@@ -215,8 +216,8 @@ purpleGPT brings a multimodal AI assistant directly into Discord servers. Users 
 ### 1. Prerequisites
 - Python 3.11+
 - FFmpeg installed in system PATH
-- Google Cloud project with Vertex AI enabled
-- Discord Bot Token from Discord Developer Portal
+- Google Cloud project with **Vertex AI API** enabled (for local testing, authenticating with ADC via `gcloud auth application-default login` is sufficient)
+- Discord Bot application created on the **Discord Developer Portal** with **Privileged Gateway Intents** toggled ON under the *Bot* tab (*Message Content Intent* and *Server Members Intent*)
 
 ### 2. Setup
 ```bash
@@ -242,7 +243,8 @@ python dashboard.py
 ```
 Open `http://127.0.0.1:5000` to view the admin dashboard.
 
-> **Local Testing & Development Notice:**
+> **Local Testing Notice:**
+> - **Automatic Database Initialization**: The SQLite database (`purplegpt.db`) and all required tables (users, quotas, tiers, cooldowns, and settings) are initialized automatically in WAL mode on first launch, regardless of whether `main.py` or `dashboard.py` is started first.
 > - **HTTPS Session Cookies (`Secure`)**: To adhere to production web security best practices (behind an Nginx reverse proxy with SSL), the dashboard issues authentication cookies with the `Secure` attribute. If testing the dashboard login in a local HTTP environment (`http://127.0.0.1:5000`), set `SESSION_COOKIE_SECURE='false'` in your `.env` file.
 > - **Real-time IPC Integration**: The dashboard and the bot are designed as cooperating microservices. To inspect real-time server statistics and test announcements, ensure both `main.py` and `dashboard.py` are running with matching `BROADCAST_SECRET` tokens.
 

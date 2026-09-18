@@ -30,14 +30,18 @@ from flask import (
     redirect, url_for, session, jsonify, get_flashed_messages, flash as flask_flash
 )
 from dotenv import load_dotenv
+from bot_managers.db import init_db, get_conn, DB_FILE
 
 load_dotenv()
 
 app = Flask(__name__)
 
+# Inizializza lo schema SQLite al caricamento se non ancora esistente (cold-start safe)
+init_db()
+
 # ── Configurazione ────────────────────────────────────────────────────────────
 
-DB_PATH            = os.getenv("DB_PATH", "purplegpt.db")
+DB_PATH            = DB_FILE
 LOG_FILE           = os.getenv("LOG_FILE", "purplegpt.log")
 LOG_LINES          = 200
 DASH_USER          = os.getenv("DASHBOARD_USER", "admin")
@@ -199,9 +203,7 @@ def inject_csrf_token():
 # ── DB helpers ────────────────────────────────────────────────────────────────
 
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    return get_conn()
 
 
 def _column_exists(conn, table: str, column: str) -> bool:
